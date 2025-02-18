@@ -1,0 +1,22 @@
+{
+  "name": "Color-Code-Export",
+  "version": "1.0.0",
+  "description": "Your Figma Plugin",
+  "main": "code.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "watch": "npm run build -- --watch"
+  },
+  "author": "Akshay Khurana",
+  "license": "Free",
+  "devDependencies": {
+    "@figma/plugin-typings": "*",
+    "typescript": "*"
+  },
+  "dependencies": {
+    "@material/material-color-utilities": "^0.3.0",
+    "colorjs.io": "^0.4.5",
+    "esbuild": "^0.24.2"
+  }
+}

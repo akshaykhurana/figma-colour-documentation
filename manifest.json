@@ -1,0 +1,17 @@
+{
+  "name": "Colour Documentation Testing",
+  "id": "1268846829526097902",
+  "api": "1.0.0",
+  "main": "code.js",
+  "capabilities": [],
+  "enableProposedApi": false,
+  "editorType": [
+    "figma"
+  ],
+  "ui": "ui.html",
+  "networkAccess": {
+    "allowedDomains": [
+      "https://ajax.googleapis.com"
+    ]
+  }
+}

@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Colour Documentation</title>
+  <!--Styles-->
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      padding: 24px;
+      font-size: 15px;
+      line-height: 24px;
+      font-weight: 400;
+      letter-spacing: 0px;
+    }
+
+    h1 {
+      font-size: 24px;
+      line-height: 32px;
+      font-weight: 700;
+      letter-spacing: -0.25px;
+      margin: 0;
+    }
+
+    h2 {
+      font-size: 18px;
+      margin: 0;
+    }
+
+    .main-window {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .form-elements {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding-top: 24px;
+    }
+
+    button {
+      height: 40px;
+      margin: 0;
+      margin-right: 8px;
+      padding: 0px 24px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      border: none;
+      border-radius: 16px;
+      cursor: pointer;
+    }
+
+    .btn-row {
+      display: flex;
+      flex-direction: row;
+    }
+
+    .btn-prm {
+      background-color: rgba(0, 0, 0, 0.93);
+      color: #fff;
+      border: none;
+    }
+
+    .btn-prm.btn-dis {
+      background-color: rgba(0, 0, 0, 0.33);
+      color: rgba(255, 255, 255, 0.75);
+    }
+
+    .btn-sec {
+      border: solid 2px;
+      color: rgba(0, 0, 0, 0.93);
+      background-color: transparent;
+    }
+
+    .btn-sec.btn-dis {
+      color: rgba(0, 0, 0, 0.33);
+    }
+
+    .icon24 {
+      width: 24px;
+      height: 24px;
+      color: black;
+    }
+
+    /* Accordion Items */
+    .accordion-header {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .accordion-content {
+      display: none;
+    }
+
+    .accordion-title {
+      flex: 1 0 120px;
+    }
+
+    .accordion-icon {
+      flex: 0 0 24px;
+      transition: transform 0.15s ease-in-out;
+    }
+
+    /* Status Messages */
+
+    .status-message {
+      height: 48px;
+    }
+
+    .messages-row {
+      display: flex;
+      flex-direction: row;
+      height: 24px;
+    }
+
+    #errorMessage {
+      color: #c00027;
+    }
+
+    #successMessage {
+      color: #1D6D00;
+    }
+
+    label {
+      width: 120px;
+      display: block;
+    }
+
+    input {
+      display: block;
+      padding: 8px 4px;
+      border-radius: 8px;
+      width: auto;
+    }
+
+    .text-field {
+      display: flex;
+      align-items: center;
+    }
+
+    .runtime-messages {
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 0px;
+      ;
+    }
+  </style>
+</head>
+
+<!--Plugin HTML-->
+
+<body>
+  <div class="main-window">
+    <h1>Colour Documentation</h1>
+    <div class="status-message" id="statusMessage">
+      Choose a frame with swatch blocks and click "Load layers" to begin.</div>
+    <div class="btn-row">
+      <button class="btn-prm btn-act" id="btnLoad">Load layers</button>
+      <button class="btn-sec btn-dis" id="btnWrite">Write data</button>
+    </div>
+    <div class="messages-row">
+      <div class="runtime-messages" id="successMessage"></div>
+      <div class="runtime-messages" id="errorMessage"></div>
+    </div>
+  </div>
+  <hr>
+  <div class="accordion-header" id="accordionHeader">
+    <h2 class="accordion-title">Advanced Options</h2><svg class="icon24 accordion-icon" id="accordionIcon" width="24"
+      height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd" clip-rule="evenodd"
+        d="M11.2929 12.8787C11.6834 13.2692 12.3166 13.2692 12.7071 12.8787L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68341 19.0976 9.31658 18.7071 9.7071L14.1213 14.2929C12.9497 15.4645 11.0503 15.4645 9.87868 14.2929L5.29289 9.7071C4.90237 9.31658 4.90237 8.68341 5.29289 8.29289C5.68342 7.90236 6.31658 7.90237 6.70711 8.29289L11.2929 12.8787Z"
+        fill="black" />
+    </svg>
+  </div>
+  <div id="accordionContent" class="accordion-content">
+    <div class="form-elements">
+      <div class="text-field">
+        <label for="parentLayerNameInput">Parent Layer</label>
+        <input type="text" id="parentLayerNameInput" value="Swatch Block" placeholder="Enter parent layer name" />
+      </div>
+
+      <div class="text-field">
+        <label for="colourLayerNameInput">Color Layer</label>
+        <input type="text" id="colourLayerNameInput" value="Swatch Colour" placeholder="Enter color layer name" />
+      </div>
+
+      <div class="text-field">
+        <label for="hexLayerNameInput">Hex Field</label>
+        <input type="text" id="hexLayerNameInput" value="Hex Value" placeholder="Enter Hex field name" />
+      </div>
+
+      <div class="text-field">
+        <label for="rgbLayerNameInput">RGB Field</label>
+        <input type="text" id="rgbLayerNameInput" value="RGB Value" placeholder="Enter RGB field name" />
+      </div>
+
+      <div class="text-field">
+        <label for="hsbLayerNameInput">HSB Field</label>
+        <input type="text" id="hsbLayerNameInput" value="HSB Value" placeholder="Enter HSB field name" />
+      </div>
+
+      <div class="text-field">
+        <label for="hslLayerNameInput">HSB Field</label>
+        <input type="text" id="hslLayerNameInput" value="HSL Value" placeholder="Enter HSL field name" />
+      </div>
+      <div class="text-field">
+        <label for="hctLayerNameInput">HCT Field</label>
+        <input type="text" id="hctLayerNameInput" value="HCT Value" placeholder="Enter HCT field name" />
+      </div>
+    </div>
+  </div>
+  <!--Plugin Scripts-->
+  <script>
+
+    // UI Methods
+    document.getElementById('accordionHeader').addEventListener('click', toggleAccordion);
+
+    // Attach event listeners to buttons
+    document.getElementById('btnLoad').addEventListener('click', loadLayers);
+    document.getElementById('btnWrite').addEventListener('click', writeLayers);
+
+    // On Message events when figma talks ot the UI
+    onmessage = (event) => {
+      const pluginMessage = event.data.pluginMessage;
+
+      if (!pluginMessage) {
+        console.error("No pluginMessage found in the event data:", event.data);
+        return;
+      }
+
+      const { type, message } = pluginMessage;
+
+      switch (type) {
+        case 'load-status':
+          showMessage('statusMessage', message, false);
+          break;
+
+        case 'load-success':
+        case 'run-success':
+          showMessage('successMessage', message, true);
+          setButton('btnWrite', 'primary', 'active');
+          setButton('btnLoad', 'secondary', 'active');
+          break;
+
+        case 'error':
+          showMessage('errorMessage', message, true);
+          setButton('btnLoad', 'primary', 'active');
+          setButton('btnWrite', 'secondary', 'disabled');
+          break;
+
+        case 'objects-found':
+          showMessage('successMessage', `Found ${message} swatch blocks successfully`, true);
+          setButton('btnLoad', 'primary', 'active');
+          setButton('btnWrite', 'secondary', 'active');
+          break;
+
+        default:
+          console.warn("Unknown message type received:", type);
+      }
+    };
+
+    // Function to load layers (fetches input values and sends them to Figma)
+    function loadLayers() {
+      const userInputs = [
+        'parentLayerNameInput',
+        'colourLayerNameInput',
+        'hexLayerNameInput',
+        'rgbLayerNameInput',
+        'hsbLayerNameInput',
+        'hslLayerNameInput',
+        'hctLayerNameInput',
+      ];
+
+      const pluginMessage = {
+        type: 'get-values',
+        ...userInputs.reduce((data, id) => {
+          data[id.replace('Input', '')] = getInputValue(id);
+          return data;
+        }, {})
+      };
+
+      // Checkpoint
+      // console.log("Loading layers with data:", pluginMessage);
+      parent.postMessage({ pluginMessage }, '*');
+    }
+
+    // Function to write color values into Figma layers
+    function writeLayers() {
+      const colorFields = [
+        'parentLayerNameInput',
+        'colourLayerNameInput',
+        'hexLayerNameInput',
+        'rgbLayerNameInput',
+        'hsbLayerNameInput',
+        'hslLayerNameInput',
+        'hctLayerNameInput',
+      ];
+
+      const pluginMessage = {
+        type: 'write-data',
+        ...colorFields.reduce((data, id) => {
+          data[id.replace('Input', '')] = getInputValue(id);
+          return data;
+        }, {})
+      };
+
+      //Checkpoint
+      // console.log("Writing layers with data:", pluginMessage);
+      parent.postMessage({ pluginMessage }, '*');
+    }
+
+    // HELPER FUNCTIONS
+
+    function getInputValue(id) {
+      return document.getElementById(id)?.value || '';
+    }
+
+
+    /* Show a message in id with content as params. Last param clears the siblings of the message div */
+    function showMessage(id, content, clear) {
+      const errorMessages = document.getElementById('errorMessage');
+      const successMessages = document.getElementById('successMessage');
+      if (clear === true) {
+        const errorMessages = document.getElementById('errorMessage');
+        const successMessages = document.getElementById('successMessage');
+        errorMessages.style.display = 'none';
+        successMessages.style.display = 'none';
+      }
+
+      document.getElementById(id).textContent = content;
+      document.getElementById(id).style.display = 'block';
+    }
+
+    /* Toggles accordion content to hidden or shown */
+    function toggleAccordion() {
+      var accState = document.getElementById('accordionContent');
+      var accIcon = document.getElementById('accordionIcon');
+      if (accState.style.display === 'none' || accState.style.display === '') {
+        accState.style.display = 'block';
+        accIcon.style.transform = 'rotate(180deg)';
+
+      } else {
+        accState.style.display = 'none';
+        accIcon.style.transform = 'rotate(0deg)';
+      }
+    }
+
+    /* Sets a button with an ID to a type and state */
+    function setButton(buttonID, changeType, changeState) {
+      // console.log("Changing buttons");
+
+      const types = {
+        'primary': 'btn-prm',
+        'secondary': 'btn-sec',
+        'tertiary': 'btn-ter'
+      };
+
+      const states = {
+        'disabled': 'btn-dis',
+        'hover': 'btn-hov'
+      };
+      const button = document.getElementById(buttonID);
+      const removeTypes = ['btn-prm', 'btn-sec', 'btn-ter'];
+      const removeStates = ['btn-dis', 'btn-hov'];
+
+      removeTypes.forEach(state => button.classList.remove(state));
+      removeStates.forEach(state => button.classList.remove(state));
+
+      if (types[changeType]) button.classList.add(types[changeType]);
+      if (states[changeState]) button.classList.add(states[changeState]);
+    }
+  </script>
+</body>
+
+</html>
