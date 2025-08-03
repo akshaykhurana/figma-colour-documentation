@@ -252,14 +252,18 @@ function rgbToHsl(r: number, g: number, b: number): string {
 import { Hct } from '@material/material-color-utilities';
 
 function rgbToHct(r: number, g: number, b: number): string {
-  // Convert normalized RGB (0-1) to 0-255
-  const red = Math.round(r * 255);
-  const green = Math.round(g * 255);
-  const blue = Math.round(b * 255);
-  // Create HCT color
-  const hct = Hct.fromInt((red << 16) + (green << 8) + blue);
-  // Format as "hue, chroma, tone"
-  return `${Math.round(hct.hue)}, ${Math.round(hct.chroma)}, ${Math.round(hct.tone)}`;
+  try {
+    // Convert normalized RGB (0-1) to 0-255
+    const red = Math.round(r * 255);
+    const green = Math.round(g * 255);
+    const blue = Math.round(b * 255);
+    // Create HCT color
+    const hct = Hct.fromInt((red << 16) + (green << 8) + blue);
+    // Format as "hue, chroma, tone"
+    return `${Math.round(hct.hue)}, ${Math.round(hct.chroma)}, ${Math.round(hct.tone)}`;
+  } catch {
+    return "Testing automatic insertion";
+  }
 }
 
 async function updateTextLayer(layer: BaseNode | null, value: string, layerType: string): Promise<void> {
