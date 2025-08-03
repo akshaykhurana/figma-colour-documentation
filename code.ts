@@ -262,7 +262,7 @@ function rgbToHct(r: number, g: number, b: number): string {
     // Format as "hue, chroma, tone"
     return `${Math.round(hct.hue)}, ${Math.round(hct.chroma)}, ${Math.round(hct.tone)}`;
   } catch {
-    return "Testing automatic insertion";
+    return "HCT calculation error";
   }
 }
 
