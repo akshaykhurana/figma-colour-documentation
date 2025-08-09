@@ -5,10 +5,9 @@
   "main": "code.js",
   "type": "module",
   "scripts": {
-    "build:figma": "esbuild code.ts --bundle --platform=browser --outfile=code.js --format=iife --target=es2017",
-    "build": "tsc -p tsconfig.json",
-    "watch": "npm run build -- --watch"
-  },
+  "build": "esbuild code.ts --bundle --format=iife --platform=browser --target=es6 --outfile=code.js",
+  "watch": "esbuild code.ts --bundle --format=iife --platform=browser --target=es6 --outfile=code.js --watch"
+},
   "author": "Akshay Khurana",
   "license": "Free",
   "devDependencies": {

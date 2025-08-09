@@ -16,6 +16,26 @@
       }
     return a;
   };
+  var __async = (__this, __arguments, generator) => {
+    return new Promise((resolve, reject) => {
+      var fulfilled = (value) => {
+        try {
+          step(generator.next(value));
+        } catch (e) {
+          reject(e);
+        }
+      };
+      var rejected = (value) => {
+        try {
+          step(generator.throw(value));
+        } catch (e) {
+          reject(e);
+        }
+      };
+      var step = (x) => x.done ? resolve(x.value) : Promise.resolve(x.value).then(fulfilled, rejected);
+      step((generator = generator.apply(__this, __arguments)).next());
+    });
+  };
 
   // node_modules/@material/material-color-utilities/utils/math_utils.js
   function signum(num) {
@@ -2787,8 +2807,21 @@
   // code.ts
   console.clear();
   var parentNodes = [];
-  figma.showUI(__html__, { width: 400, height: 400 });
-  figma.ui.onmessage = async (msg) => {
+  figma.showUI(__html__, { width: 400, height: 280 });
+  figma.on("selectionchange", () => {
+    if (figma.currentPage.selection.length > 0) {
+      figma.ui.postMessage({ type: "selection-exists" });
+    } else {
+      figma.ui.postMessage({ type: "no-selection" });
+    }
+  });
+  figma.ui.onmessage = (msg) => __async(null, null, function* () {
+    if (msg.type === "check-selection") {
+      if (figma.currentPage.selection.length > 0) {
+        figma.ui.postMessage({ type: "selection-exists" });
+      }
+      return;
+    }
     if (msg.type === "get-values") {
       const { parentLayerName } = msg;
       const selection = figma.currentPage.selection;
@@ -2840,37 +2873,39 @@
           [hslLayerName]: hsl,
           [hctLayerName]: hct
         };
-        await updateAllTextLayers([parentLayer], values);
+        yield updateAllTextLayers([parentLayer], values);
       }
-      figma.ui.postMessage({ type: "run-success", message: "Data written to swatch blocks successfully." });
+      figma.ui.postMessage({ type: "run-success", message: "Swatches updated successfully!", disableWrite: true });
     }
-  };
-  async function updateAllTextLayers(parentNodes2, values) {
-    try {
-      let fontsToLoad = /* @__PURE__ */ new Set();
-      for (const parent of parentNodes2) {
-        for (const [layerType, value] of Object.entries(values)) {
-          const textLayer = findNodeByName(layerType, parent);
-          if (textLayer && "fontName" in textLayer) {
-            fontsToLoad.add(textLayer.fontName);
+  });
+  function updateAllTextLayers(parentNodes2, values) {
+    return __async(this, null, function* () {
+      try {
+        let fontsToLoad = /* @__PURE__ */ new Set();
+        for (const parent of parentNodes2) {
+          for (const [layerType, value] of Object.entries(values)) {
+            const textLayer = findNodeByName(layerType, parent);
+            if (textLayer && "fontName" in textLayer) {
+              fontsToLoad.add(textLayer.fontName);
+            }
           }
         }
-      }
-      for (const font of fontsToLoad) {
-        await figma.loadFontAsync(font);
-      }
-      for (const parent of parentNodes2) {
-        for (const [layerType, value] of Object.entries(values)) {
-          const textLayer = findNodeByName(layerType, parent);
-          if (textLayer) {
-            await updateTextLayer(textLayer, value, layerType);
+        for (const font of fontsToLoad) {
+          yield figma.loadFontAsync(font);
+        }
+        for (const parent of parentNodes2) {
+          for (const [layerType, value] of Object.entries(values)) {
+            const textLayer = findNodeByName(layerType, parent);
+            if (textLayer) {
+              yield updateTextLayer(textLayer, value, layerType);
+            }
           }
         }
+      } catch (error) {
+        console.error(`\u274C Failed to update text layers:`, error);
+        sendError(`\u274C Failed to update text layers: ${error instanceof Error ? error.message : "Unknown error occurred."}`);
       }
-    } catch (error) {
-      console.error(`\u274C Failed to update text layers:`, error);
-      sendError(`\u274C Failed to update text layers: ${error instanceof Error ? error.message : "Unknown error occurred."}`);
-    }
+    });
   }
   function findNodeByName(name, parent) {
     if (parent.name === name) {
@@ -2948,24 +2983,26 @@
       const blue = Math.round(b * 255);
       const hct = Hct.fromInt((red << 16) + (green << 8) + blue);
       return `${Math.round(hct.hue)}, ${Math.round(hct.chroma)}, ${Math.round(hct.tone)}`;
-    } catch (e) {
+    } catch (err) {
       return "HCT calculation error";
     }
   }
-  async function updateTextLayer(layer, value, layerType) {
-    if (!layer || !("characters" in layer)) {
-      sendError(`${layerType} not found or cannot be updated.`);
-      console.error(`Error: ${layerType} layer not found or isn't a text layer.`);
-      return;
-    }
-    try {
-      const textNode = layer;
-      const fontName = textNode.fontName;
-      layer.characters = value;
-    } catch (error) {
-      console.error(`Failed to update ${layerType} layer:`, error);
-      sendError(`Failed to update ${layerType} layer: ${error instanceof Error ? error.message : "Unknown error occurred."}`);
-    }
+  function updateTextLayer(layer, value, layerType) {
+    return __async(this, null, function* () {
+      if (!layer || !("characters" in layer)) {
+        sendError(`${layerType} not found or cannot be updated.`);
+        console.error(`Error: ${layerType} layer not found or isn't a text layer.`);
+        return;
+      }
+      try {
+        const textNode = layer;
+        const fontName = textNode.fontName;
+        layer.characters = value;
+      } catch (error) {
+        console.error(`Failed to update ${layerType} layer:`, error);
+        sendError(`Failed to update ${layerType} layer: ${error instanceof Error ? error.message : "Unknown error occurred."}`);
+      }
+    });
   }
   function sendError(message) {
     figma.ui.postMessage({ type: "error", message });

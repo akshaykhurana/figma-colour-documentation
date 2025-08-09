@@ -5,9 +5,23 @@ let fontsLoaded = false;
 let parentNodes: BaseNode[] = []; // Store the parent nodes globally
 
 // Show UI
-figma.showUI(__html__, { width: 400, height: 400 });
+figma.showUI(__html__, { width: 400, height: 280 });
+
+figma.on('selectionchange', () => {
+  if (figma.currentPage.selection.length > 0) {
+    figma.ui.postMessage({ type: 'selection-exists' });
+  } else {
+    figma.ui.postMessage({ type: 'no-selection' });
+  }
+});
 
 figma.ui.onmessage = async (msg) => {
+  if (msg.type === 'check-selection') {
+    if (figma.currentPage.selection.length > 0) {
+      figma.ui.postMessage({ type: 'selection-exists' });
+    }
+    return;
+  }
   if (msg.type === 'get-values') {
     const { parentLayerName } = msg;
     const selection = figma.currentPage.selection;
@@ -84,7 +98,7 @@ figma.ui.onmessage = async (msg) => {
       await updateAllTextLayers([parentLayer], values);
     }
 
-    figma.ui.postMessage({ type: 'run-success', message: "Data written to swatch blocks successfully." });
+    figma.ui.postMessage({ type: 'run-success', message: "Swatches updated successfully!", disableWrite: true });
   }
 };
 
@@ -261,7 +275,7 @@ function rgbToHct(r: number, g: number, b: number): string {
     const hct = Hct.fromInt((red << 16) + (green << 8) + blue);
     // Format as "hue, chroma, tone"
     return `${Math.round(hct.hue)}, ${Math.round(hct.chroma)}, ${Math.round(hct.tone)}`;
-  } catch {
+ } catch (err) {
     return "HCT calculation error";
   }
 }
