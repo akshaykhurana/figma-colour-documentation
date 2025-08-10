@@ -14,11 +14,21 @@
       }
 
       /* Colours */
+
       .high-emphasis {
         color: rgba(0, 0, 0, 0.9);
       }
+
       .medium-emphasis {
         color: rgba(0, 0, 0, 0.81);
+      }
+
+      #errorMessage {
+        color: #c00027;
+      }
+
+      #successMessage {
+        color: #1d6d00;
       }
 
       h1 {
@@ -33,6 +43,27 @@
         font-size: 15px;
         line-height: 16px;
         margin: 0;
+      }
+
+      .body-small {
+        font-size: 12px;
+        line-height: 16px;
+        font-weight: 400;
+        letter-spacing: .06px;
+      }
+
+      .body-medium {
+        font-size: 15px;
+        line-height: 20px;
+        font-weight: 400;
+        letter-spacing: 0px;
+      }
+
+      .label-small{
+        font-size: 12px;
+        line-height: 16px;
+        font-weight: 700;
+        letter-spacing: .06px;
       }
 
       .flex {
@@ -116,7 +147,7 @@
       }
 
       .accordion-title {
-        flex: 1 0 120px;
+        flex: 1 0 88px;
       }
 
       .accordion-icon {
@@ -131,24 +162,29 @@
         flex-direction: column;
       }
 
-      .body-small {
-        font-size: 12px;
-        line-height: 16px;
-        font-weight: 400;
-        letter-spacing: .06px
+      /* Links should inherit parent color (no default blue) */
+      a.medium-emphasis,
+      a.medium-emphasis:visited {
+        color: inherit;
+        text-decoration: none;
+      }
+      a.medium-emphasis:hover {
+        color: rgba(0, 0, 0, 0.9);
+        text-decoration: underline;
       }
 
-      #errorMessage {
-        color: #c00027;
-      }
-
-      #successMessage {
-        color: #1d6d00;
+      /* Any links inside messages also inherit */
+      .messages a {
+        color: inherit;
       }
 
       label {
         flex: 0 0 120px; /* fixed label width inside flex row */
         color: rgba(0, 0, 0, 0.81);
+        font-size: 15px;
+        line-height: 20px;
+        font-weight: 400;
+        letter-spacing: 0px;
       }
 
       input {
@@ -157,12 +193,21 @@
         max-width: 100%;
         padding: 8px 10px;
         box-sizing: border-box;  /* include padding in width */
-        height: 32px;
+        height: 40px;
         border-radius: 4px;
-        border: 0.5px solid rgba(0, 0, 0, 0.05);
+        border: 2px solid transparent; /* transparent border to prevent layout shift */
         background: #FFF;
         box-shadow: 0 4px 9px 0 rgba(9, 17, 31, 0.03) inset, 0 1px 15px 0 rgba(9, 17, 31, 0.06) inset, 0 2px 8px 0 rgba(9, 17, 31, 0.09) inset;
         color: rgba(0, 0, 0, 0.81);
+        font-size: 15px;
+        line-height: 20px;
+        font-weight: 400;
+        letter-spacing: 0px;
+      }
+
+      input:focus {
+        outline: none; /* removes default browser outline */
+        border-color: #000; /* only change color to black when focused */
       }
 
       .text-field {
@@ -190,10 +235,15 @@
           </div>
         </div>
         <button class="btn-prm btn-dis" id="btnWrite">Update values</button>
-        <div class="body-small medium-emphasis">
-          Get the swatch component <a href="figma link here">here</a>
-        </div>
-      </div>
+                  <a class="label-small medium-emphasis" href="https://www.figma.com/design/OXDeUKLkQg6plyaWvpIvvW/Colour-Documentation?node-id=3-35&t=elS92AZ1PbV5ElNR-1" target="_blank">
+                    <span class="flex row gap-4 medium-emphasis">
+                      Get the swatch component
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6 4C5.63181 4 5.33333 4.29848 5.33333 4.66667C5.33333 5.03486 5.63181 5.33333 6 5.33333H9.72386L4.19526 10.8619C3.93491 11.1223 3.93491 11.5444 4.19526 11.8047C4.45561 12.0651 4.87772 12.0651 5.13807 11.8047L10.6667 6.27614V10C10.6667 10.3682 10.9651 10.6667 11.3333 10.6667C11.7015 10.6667 12 10.3682 12 10V5.33333C12 4.59695 11.403 4 10.6667 4H6Z" fill="currentColor"/>
+                      </svg>
+                    </span>
+                  </a>
+                </div>
       <div class="flex col gap-8">
       <div class="accordion-header" id="accordionHeader">
         <h2 class="high-emphasis accordion-title">Advanced Options</h2>
@@ -210,14 +260,14 @@
             fill-rule="evenodd"
             clip-rule="evenodd"
             d="M11.2929 12.8787C11.6834 13.2692 12.3166 13.2692 12.7071 12.8787L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68341 19.0976 9.31658 18.7071 9.7071L14.1213 14.2929C12.9497 15.4645 11.0503 15.4645 9.87868 14.2929L5.29289 9.7071C4.90237 9.31658 4.90237 8.68341 5.29289 8.29289C5.68342 7.90236 6.31658 7.90237 6.70711 8.29289L11.2929 12.8787Z"
-            fill="black"
+            fill="currentColor"
           />
         </svg>
       </div>
       <div id="accordionContent" class="accordion-content">
         <div class="form-elements">
           <div class="text-field">
-            <label class="body-small" for="parentLayerNameInput">Parent Layer</label>
+            <label class="body-medium" for="parentLayerNameInput">Parent Layer</label>
             <input
               type="text"
               id="parentLayerNameInput"
@@ -227,7 +277,7 @@
           </div>
 
           <div class="text-field">
-            <label class="body-small" for="colourLayerNameInput">Color Layer</label>
+            <label class="body-medium" for="colourLayerNameInput">Color Layer</label>
             <input
               type="text"
               id="colourLayerNameInput"
@@ -237,7 +287,7 @@
           </div>
 
           <div class="text-field">
-            <label class="body-small" for="hexLayerNameInput">Hex Field</label>
+            <label class="body-medium" for="hexLayerNameInput">Hex Field</label>
             <input
               type="text"
               id="hexLayerNameInput"
@@ -247,7 +297,7 @@
           </div>
 
           <div class="text-field">
-            <label class="body-small" for="rgbLayerNameInput">RGB Field</label>
+            <label class="body-medium" for="rgbLayerNameInput">RGB Field</label>
             <input
               type="text"
               id="rgbLayerNameInput"
@@ -257,7 +307,7 @@
           </div>
 
           <div class="text-field">
-            <label class="body-small" for="hsbLayerNameInput">HSB Field</label>
+            <label class="body-medium" for="hsbLayerNameInput">HSB Field</label>
             <input
               type="text"
               id="hsbLayerNameInput"
@@ -267,7 +317,7 @@
           </div>
 
           <div class="text-field">
-            <label class="body-small" for="hslLayerNameInput">HSL Field</label>
+            <label class="body-medium" for="hslLayerNameInput">HSL Field</label>
             <input
               type="text"
               id="hslLayerNameInput"
@@ -276,7 +326,7 @@
             />
           </div>
           <div class="text-field">
-            <label class="body-small" for="hctLayerNameInput">HCT Field</label>
+            <label class="body-medium" for="hctLayerNameInput">HCT Field</label>
             <input
               type="text"
               id="hctLayerNameInput"

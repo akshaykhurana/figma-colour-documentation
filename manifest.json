@@ -1,17 +1,14 @@
 {
   "name": "Colour Documentation Testing",
-  "id": "1268846829526097902",
+  "id": "1536331260647653928",
+  "documentAccess": "dynamic-page",
   "api": "1.0.0",
   "main": "code.js",
   "capabilities": [],
   "enableProposedApi": false,
-  "editorType": [
-    "figma"
-  ],
+  "editorType": ["figma"],
   "ui": "ui.html",
   "networkAccess": {
-    "allowedDomains": [
-      "https://ajax.googleapis.com"
-    ]
+    "allowedDomains": ["https://ajax.googleapis.com"]
   }
 }
